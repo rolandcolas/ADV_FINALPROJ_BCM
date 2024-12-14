@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/book_management.css">
+    <title>Book Management</title>
+    <style>
+        .flex-container {
+    background-color: rgba(255, 255, 255, 0); /* Solid white background */
+    padding: 15px; /* Add some padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the form */
+    box-shadow: none;
+    
+}
+
+        .flex-container input[type="text"] {
+    width: 250px; /* Fixed width for the input */
+    height: 50px; /* Desired height */
+    padding: 0 15px; /* Horizontal padding */
+    margin-right: 10px; /* Space between input and first button */
+    border: 1px solid #ccc; /* Add border for definition */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+}
+
+.flex-container button {
+    width: 140px; /* Fixed width for buttons */
+    height: 50px; /* Match the height of the input */
+    margin-left: 10px; /* Space between buttons */
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(100, 100, 250); /* Button background color */
+    color: white; /* Button text color */
+    cursor: pointer;
+}
+
+.logo {
+    width: 150px; /* Set desired width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+        .button-container button {
+            height: 50px; /* Ensure buttons are the same height as the input */
+        }
+        h1 {
+    font-family: 'Press Start 2P', cursive; /* Apply the new font */
+    font-size: 28px; /* Adjust font size if necessary */
+    color: rgb(255, 239, 180);
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0 purple,
+                 -1px -1px 0 purple,
+                 1px -1px 0 purple,
+                 -1px 1px 0 purple;
+    position: relative; /* Ensure text is above the blurred background */
+    z-index: 1; /* Bring text above the blur */
+}
+
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+}
+
+.modal-content {
+    background: linear-gradient(to bottom, #5a23f0d8, #7346ecd8, #719effd8, #ffbafcd8); /* Gradient background */
+    margin: 10% auto; /* Center modal */
+    padding: 20px; /* Add some padding */
+    border: none; /* Remove border */
+    border-radius: 10px; /* Rounded corners */
+    width: 80%; /* Width of the modal */
+    max-width: 400px; /* Maximum width */
+    color: white; /* Text color for better contrast */
+}
+
+.modal-content form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack children vertically */
+    gap: 15px; /* Space between form elements */
+    background: transparent;
+    box-shadow: none;
+}
+
+.modal-content input[type="text"],
+.modal-content select {
+    width: 1-0%; /* Full width for inputs and select */
+    height: 40px; /* Adjust height */
+    padding: 0 10px; /* Horizontal padding */
+    border: 1px solid #ccc; /* Border for definition */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    
+}
+
+.modal-content button {
+    width: 100%; /* Full width for the button */
+    height: 40px; /* Match the height of inputs */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* Remove border */
+    background-color: rgb(100, 100, 250); /* Button background color */
+    color: white; /* Button text color */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 16px; /* Button font size */
+    margin-bottom: -25px;
+}
+
+
+.logout-container {
+    display: flex; /* Use flexbox */
+    justify-content: flex-end; /* Align items to the right */
+    margin-top: 20px; /* Optional: Adds some spacing above */
+    margin-bottom: 20px;
+    box-shadow: none;
+    background: transparent;
+}
+
+.logout-button {
+    background-color: rgb(177, 9, 73); /* Change to desired color for visibility */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for the button */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 16px; /* Font size */
+    margin-bottom: 20px;
+}
+
+.logout-container form {
+    background: transparent; /* Make the form background transparent */
+    border: none; /* Remove any border */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+    </style>
+    {% load static %}
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/book_management.css' %}">
+</head>
+<body>
+    <!-- Logo Image -->
+    <img src="{% static 'images/book.gif' %}" alt="Logo" class="logo"> <!-- Update path as needed -->
+
+    <h1>Book Management</h1>
+
+    <!-- Search and Add Book Buttons -->
+    <form id="searchForm" method="GET" action="{% url 'book_management' %}" class="flex-container">
+        <input type="text" name="search" placeholder="Search by title or author" value="{{ search_query }}">
+        <button type="submit">Search</button>
+        <button id="openModal" type="button">Add Book</button>
+    </form>
+
+    <!-- Modal Structure -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Book Form -->
+        <form id="bookForm" method="POST" action="{% url 'add_book' %}">
+            {% csrf_token %}
+            <input type="text" id="title" name="title" placeholder="Title" required>
+            <input type="text" id="author" name="author" placeholder="Author" required>
+            <select id="genre" name="genre" required>
+                <option value="">Select Genre</option>
+                {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="read_status">
+                <input type="checkbox" id="read_status" name="read_status"> Read
+            </label>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+</div>
+
+    <div class="book-list" id="bookList">
+        {% for book in books %}
+            <div class="book">
+                <h3>{{ book.title }}</h3>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Genre:</strong> {{ book.genre.name }}</p>
+                <p><strong>Read Status:</strong> {{ book.read_status|yesno:"Yes,No" }}</p>
+                <h4>Reviews:</h4>
+                {% for review in book.review_set.all %}
+                    <div class="review">
+                        <strong>{{ review.user.username }}:</strong>
+                        <p>Rating: {{ review.rating }}</p>
+                        <p>Comment: {{ review.comment }}</p>
+                    </div>
+                {% empty %}
+                    <p>No reviews yet.</p>
+                {% endfor %}
+            </div>
+        {% empty %}
+            <p>No books found.</p>
+        {% endfor %}
+    </div>
+
+    <div class="logout-container">
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+
+    <script>
+        // Get modal element
+        var modal = document.getElementById('bookModal');
+        var btn = document.getElementById('openModal');
+        var span = document.getElementsByClassName('close')[0];
+    
+        // Function to open the modal
+        function openModal() {
+            modal.style.display = 'block';
+        }
+    
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+    
+        // When the user clicks the button, open the modal
+        btn.onclick = function(event) {
+            event.preventDefault(); // Prevent default button behavior
+            openModal();
+        }
+    
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function(event) {
+            event.preventDefault(); // Prevent default span behavior
+            closeModal();
+        }
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    
+        // Prevent modal from closing due to form submission
+        var bookForm = document.getElementById('bookForm');
+        bookForm.onsubmit = function(event) {
+            event.stopPropagation(); // Prevent event from bubbling up
+            // Additional form handling logic can go here
+        };
+    </script>
+</body>
+</html>

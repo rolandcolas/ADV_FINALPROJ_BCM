@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Book Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Link to the CSS file -->
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container">
+    <h1>Personal Book</h1>
+    <h1>Collection Manager</h1>
+
+    <!-- Login Form -->
+    <h2>Login</h2>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form></div>
+
+    <!-- Book Management Section (hidden until login) -->
+    <div id="bookManagement" style="display:none;">
+        <h2>Manage Books</h2>
+
+        <!-- Search Form -->
+        <form method="GET" action="{% url 'book_management' %}">
+            <input type="text" name="search" placeholder="Search by title or author" value="{{ search_query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Book Form -->
+        <form id="bookForm">
+            <input type="text" id="title" placeholder="Title" required>
+            <input type="text" id="author" placeholder="Author" required>
+            <input type="number" id="genre" placeholder="Genre ID" required>
+            <label>
+                Read: <input type="checkbox" id="read_status">
+            </label>
+            <button type="submit">Add Book</button>
+        </form>
+
+        <div class="book-list" id="bookList">
+            {% for book in books %}
+                <div class="book">
+                    <h3>{{ book.title }}</h3>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Genre:</strong> {{ book.genre.name }}</p>
+                    <p><strong>Read Status:</strong> {{ book.read_status|yesno:"Yes,No" }}</p>
+                    <h4>Reviews:</h4>
+                    {% for review in book.review_set.all %}
+                        <div class="review">
+                            <strong>{{ review.user.username }}:</strong>
+                            <p>Rating: {{ review.rating }}</p>
+                            <p>Comment: {{ review.comment }}</p>
+                        </div>
+                    {% empty %}
+                        <p>No reviews yet.</p>
+                    {% endfor %}
+                </div>
+            {% empty %}
+                <p>No books found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

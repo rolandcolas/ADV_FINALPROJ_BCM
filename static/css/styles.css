@@ -1,0 +1,91 @@
+/* static/css/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-image: url('../images/bg.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.container {
+    background: linear-gradient(130deg, #eeb064a2, #a568b19e); /* Gradient background for the container */
+    padding: 20px; /* Spacing inside the container */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text inside the container */
+    transform: scale(1); /* Adjust scale for pixelated effect */
+    image-rendering: pixelated; /* Ensures images are rendered with a pixelated effect */
+    max-width: 580px;
+    max-height: 600px;
+}
+
+h1 {
+    margin: 0; /* Remove default margin */
+    margin-bottom: 20px; /* Add space below the Book Management text */
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 25px; /* Make the text smaller */
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    color: rgb(255, 239, 180); /* Text color */
+    text-shadow: 5px 5px 0 rgba(128, 0, 128, 0.594), /* Text shadow for outline */
+                 -1px -1px 0 rgba(128, 0, 128, 0.594),
+                 1px -1px 0 rgba(128, 0, 128, 0.594),
+                 -1px 1px 0 rgba(128, 0, 128, 0.594); 
+}
+
+h2 {
+    margin: 0; /* Remove default margin */
+    margin-top: 30px; /* Add space below the Login text */
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 20px;
+    color: rgb(255, 239, 180); /* Text color */
+    text-shadow: 5px 5px 0 rgba(128, 0, 128, 0.594), /* Text shadow for outline */
+                 -1px -1px 0 rgba(128, 0, 128, 0.594),
+                 1px -1px 0 rgba(128, 0, 128, 0.594),
+                 -1px 1px 0 rgba(128, 0, 128, 0.594); 
+}
+
+form {
+    margin: 20px 0; /* Margin around the form */
+}
+
+input {
+    padding: 10px;
+    margin: 5px 0; /* Add margin above and below the input */
+    width: 100%; /* Make inputs full width */
+    max-width: 400px; /* Limit max width */
+    background-color: rgba(255, 255, 255, 0.552); /* White background with opacity */
+    border: 2px solid rgba(128, 0, 128, 0.694); /* Set border color to white */
+    border-radius: 5px; /* Rounded corners */
+}
+
+button {
+    padding: 10px;
+    width: 100%; /* Make button full width */
+    max-width: 200px; /* Limit max width */
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    background-color: rgb(255, 239, 180); /* Button background color */
+    border: 2px solid rgba(128, 0, 128, 0.552); /* Semi-transparent border for the button */
+    color: rgb(201, 101, 0); /* Text color of the button */
+    box-shadow: 5px 5px 0 rgba(128, 0, 128, 0.594), /* Shadow style matching h1 */
+                -1px -1px 0 rgba(128, 0, 128, 0.594),
+                1px -1px 0 rgba(128, 0, 128, 0.594),
+                -1px 1px 0 rgba(128, 0, 128, 0.594); /* Shadow for the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-family: 'Press Start 2P', cursive;
+}
+
+/* Additional styling for pixelated borders */
+.container {
+    border: 4px solid #fdf39db9; /* Solid border for pixelated look */
+}
