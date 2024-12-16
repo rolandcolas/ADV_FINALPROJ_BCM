@@ -9,12 +9,11 @@ body {
     font-family: 'Arial', sans-serif;
     padding: 20px;
     /* Remove background image */
-    /* background-image: url('../images/management.gif'); */ 
-    /* background-size: cover; */ 
-    /* background-position: center; */ 
-    /* background-repeat: no-repeat; */ 
-    /* background-attachment: fixed; */ 
-
+     background-image: url('../images/management.gif');  
+     background-size: cover;  
+     background-position: center;  
+     background-repeat: no-repeat;  
+     background-attachment: fixed;  
     color: #333;
     position: relative; /* Positioning for overlay */
     overflow-y: auto; /* Allow vertical scrolling */

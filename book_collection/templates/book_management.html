@@ -1,148 +1,207 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/book_management.css">
+    <link rel="stylesheet" href="{% static 'css/book_management.css' %}">
     <title>Book Management</title>
     <style>
+         body {
+            background-image: url("{% static 'images/management.gif' %}");
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent tiling */
+            background-attachment: fixed; /* Fix the image in place */
+            height: 100vh; /* Full height */
+            margin: 0; /* Remove default margin */
+        }
         .flex-container {
-    background-color: rgba(255, 255, 255, 0); /* Solid white background */
-    padding: 15px; /* Add some padding for better spacing */
-    border-radius: 10px; /* Rounded corners for the form */
-    box-shadow: none;
-    
-}
+            background-color: rgba(255, 255, 255, 0); /* Solid white background */
+            padding: 15px; /* Add some padding for better spacing */
+            border-radius: 10px; /* Rounded corners for the form */
+            box-shadow: none;
+            margin-bottom: 10px;
+        }
 
         .flex-container input[type="text"] {
-    width: 250px; /* Fixed width for the input */
-    height: 50px; /* Desired height */
-    padding: 0 15px; /* Horizontal padding */
-    margin-right: 10px; /* Space between input and first button */
-    border: 1px solid #ccc; /* Add border for definition */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-}
-
-.flex-container button {
-    width: 140px; /* Fixed width for buttons */
-    height: 50px; /* Match the height of the input */
-    margin-left: 10px; /* Space between buttons */
-    border-radius: 5px;
-    border: none;
-    background-color: rgb(100, 100, 250); /* Button background color */
-    color: white; /* Button text color */
-    cursor: pointer;
-}
-
-.logo {
-    width: 150px; /* Set desired width */
-    height: auto; /* Maintain aspect ratio */
-}
-
-        .button-container button {
-            height: 50px; /* Ensure buttons are the same height as the input */
+            width: 928px; /* Fixed width for the input */
+            height: 50px; /* Desired height */
+            padding: 0 15px; /* Horizontal padding */
+            margin-right: 10px; /* Space between input and first button */
+            border: 1px solid #ccc; /* Add border for definition */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Font size */
         }
+
+        .flex-container button {
+            width: 140px; /* Fixed width for buttons */
+            height: 50px; /* Match the height of the input */
+            margin-left: 10px; /* Space between buttons */
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(100, 100, 250); /* Button background color */
+            color: white; /* Button text color */
+            cursor: pointer;
+        }
+
+        .logo {
+            width: 150px; /* Set desired width */
+            height: auto; /* Maintain aspect ratio */
+        }
+
         h1 {
-    font-family: 'Press Start 2P', cursive; /* Apply the new font */
-    font-size: 28px; /* Adjust font size if necessary */
-    color: rgb(255, 239, 180);
-    text-align: center;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 0 purple,
-                 -1px -1px 0 purple,
-                 1px -1px 0 purple,
-                 -1px 1px 0 purple;
-    position: relative; /* Ensure text is above the blurred background */
-    z-index: 1; /* Bring text above the blur */
-}
+            font-family: 'Press Start 2P', cursive; /* Apply the new font */
+            font-size: 28px; /* Adjust font size if necessary */
+            color: rgb(255, 239, 180);
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 0 purple,
+                         -1px -1px 0 purple,
+                         1px -1px 0 purple,
+                         -1px 1px 0 purple;
+            position: relative; /* Ensure text is above the blurred background */
+            z-index: 1; /* Bring text above the blur */
+        }
 
-.modal {
-    display: none; /* Initially hidden */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-}
+        .modal {
+            display: none; /* Initially hidden */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+        }
 
-.modal-content {
-    background: linear-gradient(to bottom, #5a23f0d8, #7346ecd8, #719effd8, #ffbafcd8); /* Gradient background */
-    margin: 10% auto; /* Center modal */
-    padding: 20px; /* Add some padding */
-    border: none; /* Remove border */
-    border-radius: 10px; /* Rounded corners */
-    width: 80%; /* Width of the modal */
-    max-width: 400px; /* Maximum width */
-    color: white; /* Text color for better contrast */
-}
+        .modal-content {
+            background: linear-gradient(to bottom, #5a23f0d8, #7346ecd8, #719effd8, #ffbafcd8); /* Gradient background */
+            margin: 10% auto; /* Center modal */
+            padding: 20px; /* Add some padding */
+            border: none; /* Remove border */
+            border-radius: 10px; /* Rounded corners */
+            width: 80%; /* Width of the modal */
+            max-width: 400px; /* Maximum width */
+            color: white; /* Text color for better contrast */
+            position: relative; /* Position relative for absolute children */
+            
+        }
 
-.modal-content form {
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack children vertically */
-    gap: 15px; /* Space between form elements */
-    background: transparent;
-    box-shadow: none;
-}
+        .close {
+            color: white; /* Close button color */
+            float: right; /* Align to the right */
+            font-size: 24px; /* Size of the close button */
+            margin-bottom: 10px; /* Margin at the bottom */
+            cursor: pointer; /* Pointer cursor */
+            margin-right: -10px;
+        }
 
-.modal-content input[type="text"],
-.modal-content select {
-    width: 1-0%; /* Full width for inputs and select */
-    height: 40px; /* Adjust height */
-    padding: 0 10px; /* Horizontal padding */
-    border: 1px solid #ccc; /* Border for definition */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    
-}
+        .modal-content form {
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack children vertically */
+            gap: 15px; /* Space between form elements */
+            background: transparent;
+            box-shadow: none;
+            margin-top: 30px;
+        }
 
-.modal-content button {
-    width: 100%; /* Full width for the button */
-    height: 40px; /* Match the height of inputs */
-    border-radius: 5px; /* Rounded corners */
-    border: none; /* Remove border */
-    background-color: rgb(100, 100, 250); /* Button background color */
-    color: white; /* Button text color */
-    cursor: pointer; /* Pointer cursor */
-    font-size: 16px; /* Button font size */
-    margin-bottom: -25px;
-}
+        .modal-content input[type="text"],
+        .modal-content select {
+            width: 10-0%; /* Full width for inputs and select */
+            height: 40px; /* Adjust height */
+            padding: 0 10px; /* Horizontal padding */
+            border: 1px solid #ccc; /* Border for definition */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Font size */
+            margin-top: 5px;
+        }
 
+        .modal-content button {
+            width: 100%; /* Full width for the button */
+            height: 40px; /* Match the height of inputs */
+            border-radius: 5px; /* Rounded corners */
+            border: none; /* Remove border */
+            background-color: rgb(100, 100, 250); /* Button background color */
+            color: white; /* Button text color */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 16px; /* Button font size */
+            margin-bottom: 5px;
+        }
 
-.logout-container {
-    display: flex; /* Use flexbox */
-    justify-content: flex-end; /* Align items to the right */
-    margin-top: 20px; /* Optional: Adds some spacing above */
-    margin-bottom: 20px;
-    box-shadow: none;
-    background: transparent;
-}
+        .logout-container {
+            display: flex; /* Use flexbox */
+            justify-content: flex-end; /* Align items to the right */
+            margin-top: 20px; /* Optional: Adds some spacing above */
+            margin-bottom: 20px;
+            box-shadow: none;
+            background: transparent;
+        }
 
-.logout-button {
-    background-color: rgb(177, 9, 73); /* Change to desired color for visibility */
-    color: white; /* Button text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 20px; /* Padding for the button */
-    cursor: pointer; /* Pointer cursor */
-    font-size: 16px; /* Font size */
-    margin-bottom: 20px;
-}
+        .logout-button {
+            background-color: rgb(177, 9, 73); /* Change to desired color for visibility */
+            color: white; /* Button text color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for the button */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 16px; /* Font size */
+            margin-bottom: 20px;
+        }
 
-.logout-container form {
-    background: transparent; /* Make the form background transparent */
-    border: none; /* Remove any border */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-}
+        .logout-container form {
+            background: transparent; /* Make the form background transparent */
+            border: none; /* Remove any border */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+        .book{
+        background: rgba(255, 255, 255, 0.856);
+        padding: 15px;
+        border: 1px solid #dddddd00;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-list {
+        height: 300px; /* Set a fixed height for the book list */
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        width: 1280px; /* Full width */
+        padding: 10px; /* Optional padding */
+        background-color: rgba(255, 255, 255, 0); /* Slightly opaque background for the list */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+        margin-top: -8px;
+        position: relative; /* Position relative for pseudo-element */
+        
+    }
+
+        /* Custom scrollbar styles */
+        .book-list::-webkit-scrollbar {
+            width: 8px; /* Set width of the scrollbar */
+        }
+
+        .book-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.856); /* Color of the scrollbar thumb */
+            border-radius: 10px; /* Rounded corners for the thumb */
+        }
+
+        .book-list::-webkit-scrollbar-track {
+            background: transparent; /* Background of the scrollbar track */
+        }
+
+        .book-list::-webkit-scrollbar-button {
+            display: none; /* Hide the scrollbar arrows */
+        }
+
     </style>
     {% load static %}
     <script src="{% static 'js/script.js' %}" defer></script>
-    <link rel="stylesheet" href="{% static 'css/book_management.css' %}">
 </head>
 <body>
     <!-- Logo Image -->
@@ -158,27 +217,27 @@
     </form>
 
     <!-- Modal Structure -->
-<div id="bookModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <!-- Book Form -->
-        <form id="bookForm" method="POST" action="{% url 'add_book' %}">
-            {% csrf_token %}
-            <input type="text" id="title" name="title" placeholder="Title" required>
-            <input type="text" id="author" name="author" placeholder="Author" required>
-            <select id="genre" name="genre" required>
-                <option value="">Select Genre</option>
-                {% for genre in genres %}
-                    <option value="{{ genre.id }}">{{ genre.name }}</option>
-                {% endfor %}
-            </select>
-            <label for="read_status">
-                <input type="checkbox" id="read_status" name="read_status"> Read
-            </label>
-            <button type="submit">Add Book</button>
-        </form>
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- Book Form -->
+            <form id="bookForm" method="POST" action="{% url 'add_book' %}">
+                {% csrf_token %}
+                <input type="text" id="title" name="title" placeholder="Title" required>
+                <input type="text" id="author" name="author" placeholder="Author" required>
+                <select id="genre" name="genre" required>
+                    <option value="">Select Genre</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="read_status">
+                    <input type="checkbox" id="read_status" name="read_status"> Read
+                </label>
+                <button type="submit">Add Book</button>
+            </form>
+        </div>
     </div>
-</div>
 
     <div class="book-list" id="bookList">
         {% for book in books %}
