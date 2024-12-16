@@ -199,6 +199,16 @@
             display: none; /* Hide the scrollbar arrows */
         }
 
+        .modal-content textarea {
+    width: 10-0%; /* Full width for the textarea */
+    height: 100px; /* Adjust height */
+    padding: 10px; /* Padding */
+    border: 1px solid #ccc; /* Border for definition */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    margin-top: 5px;
+}
+
     </style>
     {% load static %}
     <script src="{% static 'js/script.js' %}" defer></script>
@@ -216,50 +226,52 @@
         <button id="openModal" type="button">Add Book</button>
     </form>
 
-    <!-- Modal Structure -->
-    <div id="bookModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <!-- Book Form -->
-            <form id="bookForm" method="POST" action="{% url 'add_book' %}">
-                {% csrf_token %}
-                <input type="text" id="title" name="title" placeholder="Title" required>
-                <input type="text" id="author" name="author" placeholder="Author" required>
-                <select id="genre" name="genre" required>
-                    <option value="">Select Genre</option>
-                    {% for genre in genres %}
-                        <option value="{{ genre.id }}">{{ genre.name }}</option>
-                    {% endfor %}
-                </select>
-                <label for="read_status">
-                    <input type="checkbox" id="read_status" name="read_status"> Read
-                </label>
-                <button type="submit">Add Book</button>
-            </form>
-        </div>
+   <!-- Modal Structure -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Book Form -->
+        <form id="bookForm" method="POST" action="{% url 'add_book' %}">
+            {% csrf_token %}
+            <input type="text" id="title" name="title" placeholder="Title" required>
+            <input type="text" id="author" name="author" placeholder="Author" required>
+            <select id="genre" name="genre" required>
+                <option value="">Select Genre</option>
+                {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="read_status">
+                <input type="checkbox" id="read_status" name="read_status"> Read
+            </label>
+            <textarea id="review" name="review" placeholder="Write a review..." rows="4" required></textarea>
+            <input type="number" id="rating" name="rating" placeholder="Rating (1-5)" min="1" max="5" required>
+            <button type="submit">Add Book</button>
+        </form>
     </div>
+</div>
 
     <div class="book-list" id="bookList">
         {% for book in books %}
-            <div class="book">
-                <h3>{{ book.title }}</h3>
-                <p><strong>Author:</strong> {{ book.author }}</p>
-                <p><strong>Genre:</strong> {{ book.genre.name }}</p>
-                <p><strong>Read Status:</strong> {{ book.read_status|yesno:"Yes,No" }}</p>
-                <h4>Reviews:</h4>
-                {% for review in book.review_set.all %}
-                    <div class="review">
-                        <strong>{{ review.user.username }}:</strong>
-                        <p>Rating: {{ review.rating }}</p>
-                        <p>Comment: {{ review.comment }}</p>
-                    </div>
-                {% empty %}
-                    <p>No reviews yet.</p>
-                {% endfor %}
+    <div class="book">
+        <h3>{{ book.title }}</h3>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre.name }}</p>
+        <p><strong>Read Status:</strong> {{ book.read_status|yesno:"Yes,No" }}</p>
+        <h4>Reviews:</h4>
+        {% for review in book.reviews.all %}
+            <div class="review">
+                <strong>{{ review.user.username }}:</strong>
+                <p>Rating: {{ review.rating }}</p>
+                <p>Comment: {{ review.comment }}</p>
             </div>
         {% empty %}
-            <p>No books found.</p>
+            <p>No reviews yet.</p>
         {% endfor %}
+    </div>
+{% empty %}
+    <p>No books found.</p>
+{% endfor %}
     </div>
 
     <div class="logout-container">
